@@ -52,11 +52,10 @@
 		<script src="./modules/CanvasRenderer.js"></script>
 		<script src = "./modules/CSS3DRenderer.js"></script>
 
-		<script src="./modules/stats.min.js"></script>
 		<script src="./modules/tween.min.js"></script>
 
 		<script>
-			var container, stats;
+			var container;
 			var camera, scene, renderer;
 			var rendererCSS;
 			
@@ -141,9 +140,6 @@
 				rendererCSS.domElement.style.margin	  = 0;
 				rendererCSS.domElement.style.padding  = 0;
 				container.appendChild( rendererCSS.domElement );
-
-				stats = new Stats();
-				container.appendChild( stats.dom );
 				
 				transform(targets.grid, 1000);
 				//
@@ -244,7 +240,6 @@
 
 				render();
 				TWEEN.update();
-				stats.update();
 			}
 
 			function render() {
