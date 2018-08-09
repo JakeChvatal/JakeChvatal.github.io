@@ -35,6 +35,7 @@
 				from{opacity: 0; }
 				to{opacity: 1; }
 			}
+
 		</style>
 	</head>
 	<body>
@@ -107,14 +108,8 @@
 				for ( var i = 0; i < objects.length; i ++ ) {
 					var object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, opacity: 0.5 } ) );
 					object.position.x = window.innerWidth / (objects.length) * (i % 5) - window.innerWidth/5;
-					object.position.y = Math.floor(i / 5) * window.innerHeight/5;
+					object.position.y = -Math.floor(i / 5) * window.innerHeight/5 + window.innerHeight / 10;
 					object.position.z = 1000;
-					
-					object.userData.id = "objInfo"
-
-					if(i==0){
-						object.userData.id = "twitter"
-					}
 					
 					targets.grid.push( object );
 				}
@@ -125,12 +120,7 @@
 					object.position.x = -window.innerWidth/2;
 					object.position.y = - i * window.innerHeight / (objects.length) + window.innerHeight/2;// - window.innerHeight/(objects.length - 1);
 					object.position.z = -100;
-					
-					object.userData.id = "objInfo"
-					if(i==0){
-						object.userData.id = "twitter"
-					}
-					
+
 					targets.align.push( object );
 				}
 				
