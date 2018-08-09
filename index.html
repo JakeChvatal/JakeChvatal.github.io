@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Jacob Chvatal 2</title>
+		<title>Jacob Chvatal</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 		<style>
@@ -9,18 +9,42 @@
 				font-family: Monospace;
 				background-color: #f0f0f0;
 				margin: 0px;
+				position: absolute;
 				overflow: hidden;
 			}
 
-			#menu {
+			#title{
 				position: absolute;
-				bottom: 20px;
 				width: 100%;
 				text-align: center;
 			}
+
+			h1{
+				text-align: center;
+				font-size: 2em;
+				-webkit-animation: fadein 2.2s;
+			}
+
+			h2{
+				text-align: center;
+				font-size: 1em;
+				-webkit-animation: fadein 2.5s;
+			}
+
+			@keyframes fadein{
+				from{opacity: 0; }
+				to{opacity: 1; }
+			}
+
 		</style>
 	</head>
 	<body>
+
+		<div id = "title">
+			<h1>Jacob Chvatal</h1>
+			<h2>designer and developer
+			</h2>
+		</div>
 
 		<script src="./build/three.js"></script>
 
@@ -46,7 +70,8 @@
 
 			function init() {
 
-				container = document.createElement( 'div' );
+			container = document.createElement( 'div' );
+
 				document.body.appendChild( container );
 
 				camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
@@ -56,10 +81,8 @@
 				scene.background = new THREE.Color( 0xf0f0f0 );
 
 				var geometry = new THREE.BoxGeometry( 20, 20, 20 );
-
 				
 				for ( var i = 0; i < 10; i ++ ) {
-
 					var object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, opacity: 0.5 } ) );
 					object.position.x = Math.random() * 800 - 400;
 					object.position.y = Math.random() * 800 - 400;
@@ -70,6 +93,13 @@
 					object.rotation.x = Math.random() * 2 * Math.PI;
 					object.rotation.y = Math.random() * 2 * Math.PI;
 					object.rotation.z = Math.random() * 2 * Math.PI;
+					
+					object.userData.id = "objInfo";
+
+					if(i==0){
+						object.userData.id = "twitter"
+					}
+
 					scene.add( object );
 					objects.push(object);
 				}
@@ -80,6 +110,13 @@
 					object.position.x = window.innerWidth / (objects.length) * (i % 5) - window.innerWidth/5;
 					object.position.y = Math.floor(i / 5) * window.innerHeight/5;
 					object.position.z = 1000;
+					
+					object.userData.id = "objInfo"
+
+					if(i==0){
+						object.userData.id = "twitter"
+					}
+					
 					targets.grid.push( object );
 				}
 
@@ -89,10 +126,14 @@
 					object.position.x = -window.innerWidth/2;
 					object.position.y = - i * window.innerHeight / (objects.length) + window.innerHeight/2;// - window.innerHeight/(objects.length - 1);
 					object.position.z = -100;
+					
+					object.userData.id = "objInfo"
+					if(i==0){
+						object.userData.id = "twitter"
+					}
+					
 					targets.align.push( object );
 				}
-				
-				//
 				
 				raycaster = new THREE.Raycaster();
 				mouse = new THREE.Vector2();
@@ -102,10 +143,8 @@
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild(renderer.domElement);
 
-				// create a new scene to hold CSS
 				cssScene = new THREE.Scene();
 
-				// create a renderer for CSS
 				rendererCSS	= new THREE.CSS3DRenderer();
 				rendererCSS.setSize( window.innerWidth, window.innerHeight );
 				rendererCSS.domElement.style.position = 'absolute';
@@ -121,13 +160,10 @@
 				//
 				document.addEventListener( 'mousedown', onMouseDown, false );
 				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-
 				window.addEventListener( 'resize', onWindowResize, false );
-
 			}
 
 			function transform( targets, duration, intersectObject) {
-
 				TWEEN.removeAll();
 
 				for ( var i = 0; i < objects.length; i ++ ) {
@@ -150,37 +186,29 @@
 						.to( { x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration )
 						.easing( TWEEN.Easing.Exponential.InOut )
 						.start();
-					
 				}
 
 				new TWEEN.Tween( this )
 					.to( {}, duration * 2 )
 					.onUpdate( render )
 					.start();
-
 			}
 
 			function onWindowResize() {
-
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
-
-				renderer.setSize( window.innerWidth, window.innerHeight );
-
+				renderer.setSize( window.innerWidth, window.innerHeight);
+				rendererCSS.setSize(window.innerWidth, window.innerHeight);
 			}
 			
 			function onDocumentTouchStart( event ) {
-				
 				event.preventDefault();
-				
 				event.clientX = event.touches[0].clientX;
 				event.clientY = event.touches[0].clientY;
-				onDocumentMouseDown( event );
-
+				onMouseDown( event );
 			}	
 
 			function onMouseDown( event ) {
-
 				event.preventDefault();
 
 				mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
@@ -191,45 +219,26 @@
 				var intersects = raycaster.intersectObjects( scene.children );
 
 				if ( intersects.length > 0 ) {
+					clearCSSScene();
 					transform(targets.align, 1000, intersects[0]);
-					getDetailsPage("objInfo");
-
+					getDetailsPage(intersects[0].object.userData.id);
 				}else{
 					transform(targets.grid, 1000);
 					clearCSSScene();
 				}
 			}
 
-			function onMouseMove(){
-				event.preventDefault();
-
-				
-				mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
-				mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
-
-				raycaster.setFromCamera( mouse, camera );
-
-				var intersects = raycaster.intersectObjects( scene.children );
-
-				if(intersects.length > 0){
-					transform(targets.grid, 500, intersects[0]);
-				}
-				
-			}
-
 			function getDetailsPage(detail){
 				var element	= document.createElement('iframe')
 				element.src	= `./infoPages/${detail}.html`; //eventually insert key for each site here, create page for each 
-
 				// width of iframe in pixels
-				var elementWidth = 1024;
-				// force iframe to have same relative dimensions as planeGeometry
+				var elementWidth = window.innerWidth * 0.8;
+
 				var aspectRatio = 1;
-				var elementHeight = elementWidth * aspectRatio;
+				var elementHeight = window.innerHeight * 1.2;
 				element.style.width  = elementWidth + "px";
 				element.style.height = elementHeight + "px";
 				
-				// create a CSS3DObject to display element
 				var cssObject = new THREE.CSS3DObject( element );
 				cssScene.add(cssObject);
 			}
@@ -242,7 +251,6 @@
 			//
 
 			function animate() {
-
 				requestAnimationFrame( animate );
 
 				render();
