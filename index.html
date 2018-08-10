@@ -40,11 +40,11 @@
 			}
 
 			#footer { 
+				position: absolute; 
 				width: 100%; 
 				margin: 3em auto; 
-				text-align: center; 
-				position: absolute; 
 				bottom: 0;
+				text-align: center;
 				display: inline-block;
 				-webkit-animation: fadein 2.2s;
 				animation: fadein 2.2s;
@@ -146,6 +146,12 @@
 					object.position.x = window.innerWidth / (objects.length) * (i % 5) - window.innerWidth/5;
 					object.position.y = -Math.floor(i / 5) * window.innerHeight/5 + window.innerHeight / 10;
 					object.position.z = 1000;
+
+					object.userData.id = "objInfo";
+
+					if(i==0){
+						object.userData.id = "twitter"
+					}
 					
 					targets.grid.push( object );
 				}
@@ -156,6 +162,12 @@
 					object.position.x = -window.innerWidth/2;
 					object.position.y = - i * window.innerHeight / (objects.length) + window.innerHeight/2;// - window.innerHeight/(objects.length - 1);
 					object.position.z = -100;
+
+					object.userData.id = "objInfo";
+
+					if(i==0){
+						object.userData.id = "twitter"
+					}
 
 					targets.align.push( object );
 				}
@@ -193,14 +205,17 @@
 					var object = objects[ i ];
 					var target = targets[ i ];
 					
-					var zOffset = 0;
+					var xOffset = 0;
+					console.log(target);
+					console.log("intersect object")
+					console.log(intersectObject);
+					if(intersectObject && intersectObject.object && object == intersectObject.object){
 
-					if(intersectObject && target == intersectObject){
-						zOffset = 1000;
+						xOffset = 150;
 					}
 
 					new TWEEN.Tween( object.position )
-						.to( { x: target.position.x, y: target.position.y, z: target.position.z + zOffset }, Math.random() * duration + duration )
+						.to( { x: target.position.x  - xOffset, y: target.position.y, z: target.position.z }, Math.random() * duration + duration )
 						.easing( TWEEN.Easing.Exponential.InOut )
 						.start();
 
