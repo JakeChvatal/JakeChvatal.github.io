@@ -180,7 +180,7 @@
 				raycaster = new THREE.Raycaster();
 				mouse = new THREE.Vector2();
 
-				renderer = new THREE.CanvasRenderer();
+				renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
 				container.appendChild(renderer.domElement);
@@ -199,6 +199,7 @@
 				//
 				document.addEventListener( 'mousedown', onMouseDown, false );
 				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+				// document.addEventListener('mousemove', onMouseMove, false);
 				window.addEventListener( 'resize', onWindowResize, false );
 			}
 
@@ -212,7 +213,7 @@
 					
 					var xOffset = 0;
 					if(intersectObject && intersectObject.object && object == intersectObject.object){
-						xOffset = 150;
+						xOffset = 100;
 					}
 
 					new TWEEN.Tween( object.position )
@@ -265,6 +266,21 @@
 					clearCSSScene();
 				}
 			}
+ 
+			// function onMouseMove(event){
+			// 	mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
+			// 	mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
+
+			// 	raycaster.setFromCamera( mouse, camera );
+
+			// 	var intersects = raycaster.intersectObjects( scene.children );
+
+			// 	if ( intersects.length > 0 ) {
+			// 		floatOnHover(intersects[0], 1000);
+			// 	}else{
+			// 		// floatRevert(intersects[0], 1000);
+			// 	}
+			// }
 
 			function getDetailsPage(detail){
 				var element	= document.createElement('iframe')
@@ -301,8 +317,8 @@
 			function render() {
 				camera.lookAt( scene.position );
 
-				rendererCSS.render(cssScene, camera);
 				renderer.render( scene, camera );
+				rendererCSS.render(cssScene, camera);
 			}
 		</script>
 	</body>
