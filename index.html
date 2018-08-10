@@ -31,6 +31,27 @@
 				-webkit-animation: fadein 2.5s;
 			}
 
+			a{
+				display: inline-block;
+				padding-left: 20px;
+				padding-right: 20px;
+			}
+
+			#footer { 
+				width: 100%; 
+				margin: 3em auto; 
+				text-align: center; 
+				position: absolute; 
+				bottom: 0;
+				display: inline-block;
+				-webkit-animation: fadein 2.2s;
+			}
+
+			iframe{
+				frameBorder: 0;
+				-webkit-animation: fadein 1.5s;
+			}
+
 			@keyframes fadein{
 				from{opacity: 0; }
 				to{opacity: 1; }
@@ -44,6 +65,18 @@
 			<h1>Jacob Chvatal</h1>
 			<h2>designer and developer
 			</h2>
+		</div>
+
+		<div id = "footer">
+			<a href = "https://instagram.com/jakechvatal" target = "_blank">
+				<img src = './images/icons/ig.svg' type = "image/svg+xml"></img>
+			</a>
+			<a href = "mailto:jakechvatal@gmail.com" target = "_blank">
+				<img src = './images/icons/mail.svg' type = "image/svg+xml"></img>
+			</a>
+			<a href = "https://www.linkedin.com/in/jacob-chvatal-873748150" target = "_blank">
+				<img src = "./images/icons/linkedin.svg" type = "image/svg+xml"></img>
+			</a>
 		</div>
 
 		<script src="./build/three.js"></script>
@@ -158,7 +191,7 @@
 					
 					var zOffset = 0;
 
-					if(target == intersectObject){
+					if(intersectObject && target == intersectObject){
 						zOffset = 1000;
 					}
 
@@ -187,14 +220,14 @@
 			}
 			
 			function onDocumentTouchStart( event ) {
-				event.preventDefault();
+				//event.preventDefault();
 				event.clientX = event.touches[0].clientX;
 				event.clientY = event.touches[0].clientY;
 				onMouseDown( event );
 			}	
 
 			function onMouseDown( event ) {
-				event.preventDefault();
+				//event.preventDefault();
 
 				mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
 				mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
@@ -215,11 +248,9 @@
 
 			function getDetailsPage(detail){
 				var element	= document.createElement('iframe')
-				element.src	= `./infoPages/${detail}.html`; //eventually insert key for each site here, create page for each 
-				// width of iframe in pixels
-				var elementWidth = window.innerWidth * 0.8;
+				element.src	= `./infoPages/${detail}.html`;
 
-				var aspectRatio = 1;
+				var elementWidth = window.innerWidth * 0.8;
 				var elementHeight = window.innerHeight * 1.2;
 				element.style.width  = elementWidth + "px";
 				element.style.height = elementHeight + "px";
@@ -233,7 +264,6 @@
 					cssScene.remove(child);
 				});
 			}
-			//
 
 			function animate() {
 				requestAnimationFrame( animate );
@@ -249,6 +279,5 @@
 				renderer.render( scene, camera );
 			}
 		</script>
-
 	</body>
 </html>
