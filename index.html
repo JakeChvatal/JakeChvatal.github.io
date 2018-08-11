@@ -21,18 +21,22 @@
 
 			h1{
 				text-align: center;
-				font-size: 2em;
+				font-size: 1.5em;
 				-webkit-animation: fadein 2.2s;
 				animation: fadein 2.2s;
 			}
 
 			h2{
 				text-align: center;
-				font-size: 1em;
+				font-size: 1.2em;
 				-webkit-animation: fadein 2.5s;
 				animation: fadein 2.5s;
 			}
 
+			#three-container{
+				width: 100%;
+			}
+				
 			a{
 				display: inline-block;
 				padding-left: 20px;
@@ -42,9 +46,11 @@
 			#footer { 
 				position: absolute; 
 				width: 100%; 
-				margin: 3em auto; 
+				margin: 2em auto; 
 				bottom: 0;
+				size: 50px;
 				text-align: center;
+				vertical-align:middle;
 				display: inline-block;
 				-webkit-animation: fadein 2.2s;
 				animation: fadein 2.2s;
@@ -71,6 +77,8 @@
 			</h2>
 		</div>
 
+		<div id = "three-container"></div>
+
 		<div id = "footer">
 			<a href = "https://instagram.com/jakechvatal" target = "_blank">
 				<img src = './images/icons/ig.svg' type = "image/svg+xml"></img>
@@ -78,7 +86,7 @@
 			<a href = "mailto:jakechvatal@gmail.com" target = "_blank">
 				<img src = './images/icons/mail.svg' type = "image/svg+xml"></img>
 			</a>
-			<a href = "https://www.linkedin.com/in/jacob-chvatal-873748150" target = "_blank">
+			<a href = "https://www.linkedin.com/in/jacob-chvatal-873748150" target = "_blank" id = "linkedin">
 				<img src = "./images/icons/linkedin.svg" type = "image/svg+xml"></img>
 			</a>
 		</div>
@@ -88,7 +96,6 @@
 		<script src="./modules/Projector.js"></script>
 		<script src="./modules/CanvasRenderer.js"></script>
 		<script src = "./modules/CSS3DRenderer.js"></script>
-
 		<script src="./modules/tween.min.js"></script>
 
 		<script>
@@ -105,10 +112,7 @@
 			animate();
 
 			function init() {
-
-			container = document.createElement( 'div' );
-
-				document.body.appendChild( container );
+				container = document.getElementById('three-container');
 
 				camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
 				camera.position.z = 2000;
@@ -116,7 +120,7 @@
 				scene = new THREE.Scene();
 				scene.background = new THREE.Color( 0xf0f0f0 );
 
-				var geometry = new THREE.BoxGeometry( 20, 20, 20 );
+				var geometry = new THREE.BoxGeometry( 25, 25, 25 );
 				
 				for ( var i = 0; i < 10; i ++ ) {
 					var object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, opacity: 0.5 } ) );
@@ -134,6 +138,10 @@
 
 					if(i==0){
 						object.userData.id = "twitter"
+					}
+
+					if(i==1){
+						object.userData.id = "objInfo2"
 					}
 
 					scene.add( object );
@@ -236,6 +244,7 @@
 			function onWindowResize() {
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
+				//set to resize when div within window resizes
 				renderer.setSize( window.innerWidth, window.innerHeight);
 				rendererCSS.setSize(window.innerWidth, window.innerHeight);
 			}
