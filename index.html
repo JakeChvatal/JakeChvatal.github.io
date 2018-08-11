@@ -13,6 +13,10 @@
 				overflow: hidden;
 			}
 
+			#topbar{
+				display: inline-block
+			}
+
 			#title{
 				position: absolute;
 				width: 100%;
@@ -39,6 +43,7 @@
 				
 			a{
 				display: inline-block;
+				vertical-align:middle;
 				padding-left: 20px;
 				padding-right: 20px;
 			}
@@ -46,14 +51,17 @@
 			#footer { 
 				position: absolute; 
 				width: 100%; 
-				margin: 2em auto; 
+				margin: 3em; 
 				bottom: 0;
-				size: 50px;
 				text-align: center;
-				vertical-align:middle;
 				display: inline-block;
 				-webkit-animation: fadein 2.2s;
 				animation: fadein 2.2s;
+			}
+
+			#linkedin{
+				margin-top: -3px;
+				vertical-align: top;
 			}
 
 			iframe{
@@ -70,11 +78,12 @@
 		</style>
 	</head>
 	<body>
-
-		<div id = "title">
-			<h1>Jacob Chvatal</h1>
-			<h2>designer and developer
-			</h2>
+		<div id  = "topbar">
+			<div id = "title">
+				<h1>Jacob Chvatal</h1>
+				<h2>designer and developer
+				</h2>
+			</div>
 		</div>
 
 		<div id = "three-container"></div>
@@ -120,7 +129,7 @@
 				scene = new THREE.Scene();
 				scene.background = new THREE.Color( 0xf0f0f0 );
 
-				var geometry = new THREE.BoxGeometry( 25, 25, 25 );
+				var geometry = new THREE.BoxGeometry( 30, 30, 30 );
 				
 				for ( var i = 0; i < 10; i ++ ) {
 					var object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, opacity: 0.5 } ) );
@@ -165,7 +174,7 @@
 					
 					if(i < objects.length / 2){
 						object.position.x = -window.innerWidth * 3 / 4;
-						object.position.y = -i  * (window.innerHeight ) / ((objects.length)/ 2) + window.innerHeight*7/16;//- i * window.innerHeight / (objects.length / 3) + window.innerHeight/2;// - window.innerHeight/(objects.length - 1);
+						object.position.y = - i  * (window.innerHeight ) / ((objects.length)/ 2) + window.innerHeight*7/16;//- i * window.innerHeight / (objects.length / 3) + window.innerHeight/2;// - window.innerHeight/(objects.length - 1);
 					}else{
 						object.position.x = window.innerWidth * 3 / 4;
 						object.position.y = - (i - objects.length/2) * (window.innerHeight) / ((objects.length)/ 2) + window.innerHeight*7/16;// - window.innerHeight/(objects.length - 1);
@@ -213,12 +222,11 @@
 					var xOffset = 0;
 					var turnOffset = 0;
 					if(intersectObject && intersectObject.object && object == intersectObject.object){
+						turnOffset = .5;
 						if(intersectObject.object.position.x > 0){
 							xOffset = 100;
-							turnOffset = .5;
 						}else{
 							xOffset = -100;
-							turnOffset = -.5;
 						}
 					}
 
@@ -228,7 +236,7 @@
 						.start();
 
 					new TWEEN.Tween( object.rotation )
-						.to( { x: target.rotation.x + turnOffset, y: target.rotation.y, z: target.rotation.z - turnOffset/2 }, Math.random() * duration + duration )
+						.to( { x: target.rotation.x + turnOffset, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration )
 						.easing( TWEEN.Easing.Exponential.InOut )
 						.start();
 				}
