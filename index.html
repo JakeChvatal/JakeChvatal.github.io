@@ -114,7 +114,7 @@
 			function init() {
 				container = document.getElementById('three-container');
 
-				camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 10000 );
+				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
 				camera.position.z = 2000;
 
 				scene = new THREE.Scene();
@@ -155,32 +155,23 @@
 					object.position.y = -Math.floor(i / 5) * window.innerHeight/5 + window.innerHeight / 10;
 					object.position.z = 1000;
 
-					// if(mobilecheck()){
-					// 	object.position.x = window.innerWidth / (objects.length) * (i % 2) - window.innerWidth/4;
-					// 	object.position.y = -Math.floor(i / 2) * window.innerHeight/10 + window.innerHeight / 4;
-					// }
-
-					object.userData.id = "objInfo";
-
-					if(i==0){
-						object.userData.id = "twitter"
-					}
-					
 					targets.grid.push( object );
 				}
 
 				//align
 				for(var i = 0; i< objects.length; i++){
+					
 					var object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, opacity: 0.5 } ) );
-					object.position.x = -window.innerWidth/2;
-					object.position.y = - i * window.innerHeight / (objects.length) + window.innerHeight/2;// - window.innerHeight/(objects.length - 1);
-					object.position.z = -100;
-
-					object.userData.id = "objInfo";
-
-					if(i==0){
-						object.userData.id = "twitter"
+					
+					if(i < objects.length / 2){
+						object.position.x = -window.innerWidth * 3 / 4;
+						object.position.y = -i  * (window.innerHeight ) / ((objects.length)/ 2) + window.innerHeight*7/16;//- i * window.innerHeight / (objects.length / 3) + window.innerHeight/2;// - window.innerHeight/(objects.length - 1);
+					}else{
+						object.position.x = window.innerWidth * 3 / 4;
+						object.position.y = - (i - objects.length/2) * (window.innerHeight) / ((objects.length)/ 2) + window.innerHeight*7/16;// - window.innerHeight/(objects.length - 1);
 					}
+					
+					object.position.z = -50;
 
 					targets.align.push( object );
 				}
@@ -220,17 +211,24 @@
 					var target = targets[ i ];
 					
 					var xOffset = 0;
+					var turnOffset = 0;
 					if(intersectObject && intersectObject.object && object == intersectObject.object){
-						xOffset = 100;
+						if(intersectObject.object.position.x > 0){
+							xOffset = 100;
+							turnOffset = .5;
+						}else{
+							xOffset = -100;
+							turnOffset = -.5;
+						}
 					}
 
 					new TWEEN.Tween( object.position )
-						.to( { x: target.position.x  - xOffset, y: target.position.y, z: target.position.z }, Math.random() * duration + duration )
+						.to( { x: target.position.x  + xOffset, y: target.position.y, z: target.position.z}, Math.random() * duration + duration )
 						.easing( TWEEN.Easing.Exponential.InOut )
 						.start();
 
 					new TWEEN.Tween( object.rotation )
-						.to( { x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration )
+						.to( { x: target.rotation.x + turnOffset, y: target.rotation.y, z: target.rotation.z - turnOffset/2 }, Math.random() * duration + duration )
 						.easing( TWEEN.Easing.Exponential.InOut )
 						.start();
 				}
@@ -275,21 +273,6 @@
 					clearCSSScene();
 				}
 			}
- 
-			// function onMouseMove(event){
-			// 	mouse.x = ( event.clientX / renderer.domElement.clientWidth ) * 2 - 1;
-			// 	mouse.y = - ( event.clientY / renderer.domElement.clientHeight ) * 2 + 1;
-
-			// 	raycaster.setFromCamera( mouse, camera );
-
-			// 	var intersects = raycaster.intersectObjects( scene.children );
-
-			// 	if ( intersects.length > 0 ) {
-			// 		floatOnHover(intersects[0], 1000);
-			// 	}else{
-			// 		// floatRevert(intersects[0], 1000);
-			// 	}
-			// }
 
 			function getDetailsPage(detail){
 				var element	= document.createElement('iframe')
