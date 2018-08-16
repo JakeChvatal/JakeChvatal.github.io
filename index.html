@@ -320,6 +320,18 @@
 			function animate() {
 				requestAnimationFrame( animate );
 
+				scene.traverse( function( node ) {
+
+					if ( node instanceof THREE.Mesh ) {
+
+						node.rotation.x += 0.05;
+						node.rotation.y += 0.05;
+						node.material = new THREE.MeshNormalMaterial()
+
+						}
+
+				} );
+
 				render();
 				TWEEN.update();
 			}
