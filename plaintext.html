@@ -9,16 +9,9 @@
 				font-family: Monospace;
 				background-color: #f0f0f0;
 				margin: 0px;
-				position: absolute;
-				overflow: hidden;
-			}
-
-			#topbar{
-				display: inline-block
 			}
 
 			#title{
-				position: absolute;
 				width: 100%;
 				text-align: center;
 			}
@@ -36,20 +29,16 @@
 				-webkit-animation: fadein 2.5s;
 				animation: fadein 2.5s;
 			}
-
-			#three-container{
-				width: 100%;
-			}
 				
 			a{
 				display: inline-block;
-				vertical-align:middle;
+				vertical-align: middle;
 				padding-left: 20px;
 				padding-right: 20px;
 			}
 
 			#footer { 
-				position: absolute; 
+                position: absolute;
 				width: 100%; 
 				margin-bottom: 3em; 
 				bottom: 0;
@@ -62,12 +51,6 @@
 			#linkedin{
 				margin-top: -3px;
 				vertical-align: top;
-			}
-
-			iframe{
-				border: none;
-				-webkit-animation: fadein 1.5s;
-				animation: fadein 1.5s;
 			}
 
 			@keyframes fadein{
@@ -83,9 +66,20 @@
 				<h1>Jacob Chvatal</h1>
 				<h2>designer and developer</h2>
 			</div>
-		</div>
-
-		<div id = "three-container"></div>
+        </div>
+        
+        <div id = "content">
+            <div id = "internships">
+                <h3>Internships</h3>
+                <ul>
+                    <li>
+                        <a href = "./infoPages/cdk.html" target = "_blank">
+                            CDK Global
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
 		<div id = "footer">
 			<a href = "https://instagram.com/jakechvatal" target = "_blank">
@@ -98,15 +92,5 @@
 				<img src = "./images/icons/linkedin.svg" type = "image/svg+xml"></img>
 			</a>
 		</div>
-
-		<script src="./build/three.js"></script>
-
-		<script src="./modules/Projector.js"></script>
-		<script src="./modules/CanvasRenderer.js"></script>
-		<script src = "./modules/CSS3DRenderer.js"></script>
-		<script src="./modules/tween.min.js"></script>
-		<script src = "./modules/OBJLoader.js"></script>
-
-		<script src = "./script.js"></script>
 	</body>
 </html>

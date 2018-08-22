@@ -20,15 +20,6 @@ function init() {
     scene.background = new THREE.Color( 0xf0f0f0 );
 
     var geometry = new THREE.BoxGeometry( 30, 30, 30 );
-    
-    var loader = new THREE.OBJLoader();
-    loader.load('./model.obj', function(object){
-        object.position.set(0, 0, 1000);
-        object.scale.set(100,100,100);
-
-        scene.add(object)
-        console.log("loaded object")
-    })
 
     for ( var i = 0; i < 10; i ++ ) {
         var object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { color: Math.random() * 0xffffff, opacity: 0.5 } ) );
@@ -42,14 +33,10 @@ function init() {
         object.rotation.y = Math.random() * 2 * Math.PI;
         object.rotation.z = Math.random() * 2 * Math.PI;
         
-        object.userData.id = "objInfo";
+        object.userData.id = "cdk";
 
         if(i==0){
             object.userData.id = "twitter"
-        }
-
-        if(i==1){
-            object.userData.id = "objInfo2"
         }
 
         scene.add( object );
